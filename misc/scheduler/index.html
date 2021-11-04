@@ -1,0 +1,146 @@
+<title>wSchedule v0.3</title>
+<link rel="stylesheet" href="icons.css">
+<style media="print">
+#configuration, #navigation, #sidebar, #printhead { display: none; }
+#printcontent { overflow-y: unset !important; margin-left: 0px !important; height: unset !important; margin-top: 0px !important; }
+</style>
+<style>
+body, html { margin: 0px; line-height: 1.6; }
+#configuration { font-family: sans-serif; margin: 10px; }
+.printed { font-size:13px; line-height: normal; }
+#navigation { background: #ededed; font-family: sans-serif; border-bottom: 1px solid #bbb; max-height: 40px; box-sizing: border-box; z-index: 1; position: absolute; width: 100vw; top: 0px; }
+#printcontent { /*position: relative;*/ margin-left: 220px; height: calc(100vh - 40px); overflow-y: auto; margin-top: 40px; }
+#sidebar { width: 220px; height: 100vh; background: #f5f5f5; float: left; margin-right: 5px; border-right: 1px solid #ddd; position: absolute; top: 0px; padding-top: 40px; box-sizing: border-box; font-family: sans-serif; }
+#sidebar h5 { color: #666; font-weight: 500; font-size: 12px; padding: 10px 10px 2px; }
+#sidebar .item { padding: 2px 10px 2px 25px; display: block; color: #444; font-size: 14px; cursor: pointer; width:100%; box-sizing: border-box; }
+#sidebar .item.selected { background: #ddd; }
+#sidebar .nav-group { width: 100%; }
+.btn { display: inline-block; padding: 3px 8px 2px 8px; margin: 5px 0px 5px 5px; border: 1px solid black; cursor: pointer; border-radius: 5px; background: #fff; border-color: #dedede #dedede #c3c3c3; font-size: 12px; color: #444; }
+.btn.pull-right { float: right; margin: 5px 5px 5px 0px; }
+.btn:active { background: #ccc; }
+.btn.active { background: #555; color: white; }
+.nav-group { display: inline-block; }
+.nav-group .btn { border-radius: 0px; margin: 5px 0px 5px 0px; border-right: none; }
+.nav-group .btn:first-child { border-radius: 5px 0px 0px 5px; margin: 5px 0px 5px 5px; }
+.nav-group .btn:last-child { border-radius: 0px 5px 5px 0px; border-right: 1px solid #dedede; }
+h1, h2, h3, h4, h5, h6 { margin: 0; }
+#printhead { font-family: sans-serif; margin: 0px 10px; }
+.icon { width: 14px; height: 14px; line-height: 1; font-size: 14px; float: left; margin-top: 2px; margin-right: 5px; }
+#sidebar .icon { margin-right: 7px; font-size: 18px; width: 18px; }
+</style>
+<script src="gen.js?v=0.2"></script>
+<nav id="navigation">
+   <div style="width:calc(100vw - 228px);max-width: 465px; text-align:right; display: inline-block; padding-left: 0px;">
+   <div class="nav-group">
+      <span class="btn" onclick="if(confirm('Are you sure you want to reset the page?')){clearSchedule()}"><span class="icon icon-trash"></span>Clear Schedule</span><span class="btn" onclick="prevsched.outerHTML = ''; var fop = document.createElement('input'); fop.type = 'file'; fop.id='prevsched'; fop.style.display = 'none'; fop.setAttribute('onchange','readSingleFile(event)'); document.body.appendChild(fop); prevsched.click()"><span class="icon icon-folder"></span>Open Schedule</span>
+   </div></div>
+   <span class="btn pull-right" onclick="saveFile('schedule.json',JSON.stringify(classContainer))"><span class="icon icon-download"></span>Save Schedule</span>
+   <span class="btn pull-right" onclick="window.print()"><span class="icon icon-print"></span>Print Week</span>
+</nav>
+<div id="sidebar">
+   <h5>Printing</h5>
+   <span class="item selected" onclick="switchConfig(printconfig)" id="printoption"><span class="icon icon-print"></span>Print Settings</span>
+   <h5>Classes</h5>
+   <div class="nav-group" id="classItems">
+      
+   </div>
+   <span class="item" onclick="switchConfig(addnewclass);" id="addclassoption"><span class="icon icon-plus"></span>Add Class</span>
+</div>
+<div id="printcontent">
+<div id="configuration">
+   <input style="display: none" type="file" id="prevsched"/>
+   <div id="addnewclass" style="display: none">
+<h2 id="addclasstitle">Add New Class</h2>
+Class ID: <input type="textbox" id="classname" placeholder="Dept 101"></input><br>
+Class Name: <input type="textbox" id="classdesc" placeholder="Intro to Jazz"</input><br>
+Location: <input type="textbox" id="classlocation" placeholder="Building Number"></input>
+<hr>
+<b>Days</b><br>
+<table>
+	<tr style="text-align:center;">
+		<td>M</td>
+		<td>Tu</td>
+		<td>W</td>
+		<td>Th</td>
+		<td>F</td>
+		<td>Sa</td>
+		<td>Su</td>
+	</tr>
+	<tr>
+		<td><input type="checkbox" onclick="displaytimes(this.checked,this.id)" id="M"/></td>
+		<td><input type="checkbox" onclick="displaytimes(this.checked,this.id)" id="Tu"/></td>
+		<td><input type="checkbox" onclick="displaytimes(this.checked,this.id)" id="W"/></td>
+		<td><input type="checkbox" onclick="displaytimes(this.checked,this.id)" id="Th"/></td>
+		<td><input type="checkbox" onclick="displaytimes(this.checked,this.id)" id="F"/></td>
+		<td><input type="checkbox" onclick="displaytimes(this.checked,this.id)" id="Sa"/></td>
+		<td><input type="checkbox" onclick="displaytimes(this.checked,this.id)" id="Su"/></td>
+	</tr>
+</table>
+<hr>
+<b>Times</b><br>
+<table>
+	<tr id="M_times" style="display:none;">
+		<td>Monday</td>
+		<td><input type="time" name="start"/> to <input type="time" name="stop"/></td>
+		<td><a href="#" onclick="this.parentElement.parentElement.children[3].style.display='table-cell';">+</a></td>
+		<td style="display:none;"><input type="time" name="start"/> to <input type="time" name="stop" class="second"/></td>
+	</tr>
+	<tr id="Tu_times" style="display:none;">
+		<td>Tuesday</td>
+		<td><input type="time" name="start"/> to <input type="time" name="stop"/></td>
+		<td><a href="#" onclick="this.parentElement.parentElement.children[3].style.display='table-cell';">+</a></td>
+		<td style="display:none;"><input type="time" name="start"/> to <input type="time" name="stop" class="second"/></td>
+	</tr>
+	<tr id="W_times" style="display:none;">
+		<td>Wednesday</td>
+		<td><input type="time" name="start"/> to <input type="time" name="stop"/></td>
+		<td><a href="#" onclick="this.parentElement.parentElement.children[3].style.display='table-cell';">+</a></td>
+		<td style="display:none;"><input type="time" name="start"/> to <input type="time" name="stop" class="second"/></td>
+	</tr>
+	<tr id="Th_times" style="display:none;">
+		<td>Thursday</td>
+		<td><input type="time" name="start"/> to <input type="time" name="stop"/></td>
+		<td><a href="#" onclick="this.parentElement.parentElement.children[3].style.display='table-cell';">+</a></td>
+		<td style="display:none;"><input type="time" name="start"/> to <input type="time" name="stop" class="second"/></td>
+	</tr>
+	<tr id="F_times" style="display:none;">
+		<td>Friday</td>
+		<td><input type="time" name="start"/> to <input type="time" name="stop"/></td>
+		<td><a href="#" onclick="this.parentElement.parentElement.children[3].style.display='table-cell';">+</a></td>
+		<td style="display:none;"><input type="time" name="start"/> to <input type="time" name="stop" class="second"/></td>
+	</tr>
+	<tr id="Sa_times" style="display:none;">
+		<td>Saturday</td>
+		<td><input type="time" name="start"/> to <input type="time" name="stop"/></td>
+		<td><a href="#" onclick="this.parentElement.parentElement.children[3].style.display='table-cell';">+</a></td>
+		<td style="display:none;"><input type="time" name="start"/> to <input type="time" name="stop" class="second"/></td>
+	</tr>
+	<tr id="Su_times" style="display:none;">
+		<td>Sunday</td>
+		<td><input type="time" name="start"/> to <input type="time" name="stop"/></td>
+		<td><a href="#" onclick="this.parentElement.parentElement.children[3].style.display='table-cell';">+</a></td>
+		<td style="display:none;"><input type="time" name="start"/> to <input type="time" name="stop" class="second"/></td>
+	</tr>
+</table>
+<hr>
+<button onclick="main()" id="addclassbtn">Add Class</button>
+   </div>
+   <div id="printconfig">
+<h2>Print Configuration</h2>
+<b>Formatted Title</b><br>
+Name: <input id="ftitlename" type="text" onchange="setFTitle()" placeholder="First Name"/><br>
+Semester: <input id="ftitlesem" type="text" onchange="setFTitle()" placeholder="Season Year"/><br>
+College: <input id="ftitlecol" type="text" onchange="setFTitle()" placeholder="Acronym"/><br>
+<hr>
+Custom Title: <input id="titleinput" type="text" onchange="generateGraph()"/>
+<div style="display: none"><hr><input type="checkbox" id="twoweek" onclick="generateGraph()"/> Display Two Weeks</div>
+</div>
+</div>
+<div id="printhead">
+<hr>
+<h2>Result</h2>
+Preview: (Remember to set landscape in print preview.)
+</div>
+<h1 id="titleblock"></h1>
+<div id="printcontainer" style="position:relative;"></div>
+</div>
