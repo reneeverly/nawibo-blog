@@ -332,20 +332,24 @@ function readSingleFile(e) {
    reader.onload = function(e) {
       var contents = e.target.result
       classContainer = JSON.parse(contents)
-      classItems.innerHTML = "";
-      for (var i = 0; i < classContainer.length; i++) {
-         var curClass = classContainer[i]
-         var curDays = curClass.days
-         classItems.innerHTML += '<span class="item" onclick="switchConfig(addnewclass); editClass('+i+')"><span class="icon icon-controller-record"></span>' + curClass.name + '</span>'
-
-         // patch files from v2 to v3
-         if (typeof classContainer[i].desc == "undefined") { classContainer[i].desc = "" }
-      }
-      generateGraph()
+      processImportedClassContainer()
    }
    reader.readAsText(file)
 }
 //window.onload = function() { document.getElementById('prevsched').addEventListener('change', readSingleFile, false) }
+
+function processImportedClassContainer() {
+   classItems.innerHTML = "";
+   for (var i = 0; i < classContainer.length; i++) {
+      var curClass = classContainer[i]
+      var curDays = curClass.days
+      classItems.innerHTML += '<span class="item" onclick="switchConfig(addnewclass); editClass('+i+')"><span class="icon icon-controller-record"></span>' + curClass.name + '</span>'
+
+      // patch files from v2 to v3
+      if (typeof classContainer[i].desc == "undefined") { classContainer[i].desc = "" }
+   }
+   generateGraph()
+}
 
 /**
  * Save File via link trick
