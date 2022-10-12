@@ -1,0 +1,178 @@
+
+<!-- saved from url=(0136)https://webcourses.niu.edu/bbcswebdav/pid-5865489-dt-content-rid-56506842_2/courses/20198-ENGL-600-%2DP001/The%20thesis%20generator.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <link rel="stylesheet" href="./The thesis generator_files/main.css">
+  <title>The thesis generator</title>
+  <style>
+  .quotebox {
+  width: 75%;
+  border: 5px blue outset; 
+  margin: 10px;
+  padding: 10px;  
+  }
+  </style>
+
+<script style="javascript">
+function madlib(sentence) {
+var questions = 7;
+var questionsLeft = ' [' + questions + ' questions left]';
+var q1 = prompt('title of text 1' + questionsLeft);
+questions -= 1;
+questionsLeft = ' [' + questions + ' questions left]';
+var q2 = prompt('title of text 2' + questionsLeft);
+questions -= 1;
+questionsLeft = ' [' + questions + ' questions left]';
+var q3 = prompt('title of text 3' + questionsLeft);
+questions -= 1;
+questionsLeft = ' [' + questions + ' questions left]';
+var q4 = prompt('feature 1 (e.g. color, facial expressions, clothing)' + questionsLeft);
+questions -= 1;
+questionsLeft = ' [' + questions + ' questions left]';
+var q5 = prompt('feature 2 (e.g. color, facial expressions, clothing)' + questionsLeft);
+questions -= 1;
+questionsLeft = ' [' + questions + ' questions left]';
+var q6 = prompt('verb explaining relationship of features to effect (i.e. create, reinforce, subvert, etc)' + questionsLeft);
+questions -= 1;
+questionsLeft = ' [' + questions + ' questions left]';
+var q7 = prompt('underlying stereotype as a noun phrase (e.g. traditional roles of men in society, depictions of black women in domestic roles, a naturalization of heterosexuality, etc.)' + questionsLeft);
+alert('All done. Ready for the thesis and outline?');
+var sentence = "<h2>Thesis</h2>&quot;<span style=color:green>" + q1 + "</span>&quot;";
+sentence += ', &quot;<span style=color:green>' + q2 + "</span>&quot;";
+sentence += ' and &quot;<span style=color:green>' + q3 + "</span>&quot;" ;
+sentence += ' use <span style=color:blue>' + q4 + '</span>' ;
+sentence += ' and <span style=color:blue>' + q5 + '</span>' ;
+sentence += ' to <span style=color:red>' + q6 + '</span>' ;
+sentence +=  '&nbsp; <span style=color:purple>' +q7 + '</span>' ;
+sentence += '<p><hr></p>';
+sentence += '<h2>Textual Outline</h2>';
+sentence += '<h3>Body paragraph one</h3>';
+sentence += '<ul><li>' + q1  + '&nbsp;' ;
+sentence += q4 ;
+sentence += ' (how, specifically, does ' + q4 + ' work in ' ;
+sentence += q1 + '?)</li>' ;
+sentence += '<h3>Body paragraph two</h3>';
+sentence += '<li>' + q1  + '&nbsp;' ;
+sentence += q5 ;
+sentence += ' (how, specifically, does ' + q5 + ' work in ' ;
+sentence += q1 + '?)</li></ul>' ;
+sentence += '<h3>Body paragraph three</h3>';
+sentence += '<ul><li>' + q2  + '&nbsp;' ;
+sentence += q4 + '</li>' ;
+sentence += '<h3>Body paragraph four</h3>';
+sentence += '<li>' + q2  + '&nbsp;' ;
+sentence += q5 + '</li></ul>' ;
+sentence += '<h3>Body paragraph five</h3>';
+sentence += '<ul><li>' + q3  + '&nbsp;' ;
+sentence += q4 + '</li>' ;
+sentence += '<h3>Body paragraph six</h3>';
+sentence += '<li>' + q3  + '&nbsp;' ;
+sentence += q5 + '</li></ul>' ;
+sentence += '<h3>Conclusion</h3>';
+//sentence += ' <p> (reload page to start over) [editors note -- this will be improved in future iterations]</p>';
+document.getElementById('output').innerHTML = sentence;
+}
+
+function inverted_madlib(sentence) {
+var questions = 9;
+var questionsLeft = ' [' + questions + ' questions left]';
+var q1 = prompt('title of text 1' + questionsLeft);
+questions -= 1;
+questionsLeft = ' [' + questions + ' questions left]';
+var q2 = prompt('title of text 2' + questionsLeft);
+questions -= 1;
+questionsLeft = ' [' + questions + ' questions left]';
+var q3 = prompt('feature 1' + questionsLeft);
+questions -= 1;
+questionsLeft = ' [' + questions + ' questions left]';
+var q4 = prompt('feature 2' + questionsLeft);
+questions -= 1;
+questionsLeft = ' [' + questions + ' questions left]';
+var q5 = prompt('verb explaing relationship of features to effect (i.e. create, reinforce, subvert, etc)' + questionsLeft);
+questions -= 1;
+questionsLeft = ' [' + questions + ' questions left]';
+var q6 = prompt('effect features play (i.e. convey authority, cast doubt on ability of opponent, reinforce character of the speaker, etc.' + questionsLeft);
+questions -= 1;
+questionsLeft = ' [' + questions + ' questions left]';
+var q7 = prompt('title of text 3' + questionsLeft);
+questions -= 1;
+questionsLeft = ' [' + questions + ' questions left]';
+var q8 = prompt('verb explaing relationship of features to effect (i.e. create, reinforce, subvert, etc)' + questionsLeft);
+questions -= 1;
+questionsLeft = ' [' + questions + ' questions left]';
+var q9 = prompt('effect features play (i.e. convey authority, cast doubt on ability of opponent, reinforce character of the speaker, etc.' + questionsLeft);
+
+alert('All done. Ready for the thesis and outline?');
+var sentence = "<h2>Thesis</h2>Although &quot;<span style=color:green>" + q1 + "</span>&quot;";
+sentence += 'and &quot;<span style=color:green>' + q2 + "</span>&quot;";
+sentence += ' use <span style=color:blue>' + q3 +'</span>' ;
+sentence += ' and <span style=color:blue>' + q4 + '</span>' ;
+sentence += ' to <span style=color:red>' + q5 + '</span>';
+sentence +=  '&nbsp;<span style=color:purple>' +q6 + '</span>';
+sentence += ' , &quot;<span style=color:green>' + q7 + "</span>&quot;" ;
+sentence += ' uses them to <span style=color:red>' + q8 + '</span>' ;
+sentence += ' &nbsp;<span style=color:purple>' + q9 + '</span>';
+sentence += '<p><hr></p>';
+sentence += '<h2>Textual Outline</h2>';
+sentence += '<h3>Body paragraph one</h3>';
+sentence += '<ul><li>' + q1  + '&nbsp;' ;
+sentence += q3 + '</li>' ;
+sentence += '<h3>Body paragraph two</h3>';
+sentence += '<li>' + q1  + '&nbsp;' ;
+sentence += q4 + '</li></ul>' ;
+sentence += '<h3>Body paragraph three</h3>';
+sentence += '<ul><li>' + q2  + '&nbsp;' ;
+sentence += q3 + '</li>' ;
+sentence += '<h3>Body paragraph four</h3>';
+sentence += '<li>' + q2  + '&nbsp;' ;
+sentence += q4 + '</li></ul>' ;
+sentence += '<h3>Body paragraph five</h3>';
+sentence += '<ul><li>' + q7  + '&nbsp;' ;
+sentence += q3 + '</li>' ;
+sentence += '<h3>Body paragraph six</h3>';
+sentence += '<li>' + q7 + '&nbsp;' ;
+sentence += q4 + '</li></ul>' ;
+sentence += '<h3>Conclusion</h3>';
+//sentence += ' <p> (reload page to start over) [editors note -- this will be improved in future iterations]</p>';
+//document.write(sentence);
+document.getElementById('output').innerHTML = sentence;
+}
+</script>
+ </head>
+<body>
+<h1>Critical Analysis Guidelines</h1>
+
+<p>Your overall purpose here is to examine the ways in which a specific stereotype or assumption is propogated and/or challenged/subverted in popular media. In other words, we are examining the specific ways in which particular texts carry, create, reproduce, or perhaps even challenge social power structures (such as gender, race, ethnicity, class, and so on).</p>
+
+<p>The structure of your analysis should support that overall goal, and your discussion of evidence should be as detailed as possible in order to “prove” your point. Also remember that your “text” should be very specific, should be included in the analysis via screenshot or quotation, and should be discussed in detail. </p>
+
+Standard thesis establishing similarity:<br>
+•	<span style="color:green">[text1]</span>, <span style="color:green">[text 2]</span>, and <span style="color:green">[text 3]</span> use <span style="color:blue">[feature 1]</span> and <span style="color:blue">[feature 2]</span> to <span style="color:red">[verb]</span> <span style="color:purple">[effect]</span>
+<p>
+Example: 
+<span style="color:green">“Republican Erika Harold: Wrong for Illinois”</span>, <span style="color:green">“What Erika Harold Believes“</span> and <span style="color:green">“Anything”</span> use <span style="color:blue">written font </span> and <span style="color:blue">verbal narration</span> to <span style="color:red">create</span> <span style="color:purple">a sense of fear and condemnation about the opposing candidate</span>.
+</p>
+
+<!-- <button type=button onclick="madlib()">Generate additive thesis!</button>-->
+<input type="button" onclick="madlib();" value="Generate additive thesis!">
+<p id="output1"></p>
+
+<p><br></p><p>
+Standard thesis establish difference:<br>
+•	Although <span style="color:green">[text 1]</span> and <span style="color:green">[text 2]</span> use <span style="color:blue">[feature 1]</span> and <span style="color:blue">[feature 2]</span> to <span style="color:red">[verb]</span><span style="color:purple">[effect]</span>, <span style="color:green">[text 3]</span> uses them to <span style="color:red">[verb]</span><span style="color:purple">[effect]</span>.
+</p><p>
+Example: 
+Although <span style="color:green">“Republican Erika Harold: Wrong for Illinois”</span> and <span style="color:green">“Anything”</span> use <span style="color:blue">written font</span> and <span style="color:blue">verbal narration</span> to <span style="color:red">create</span> <span style="color:purple">a sense of fear and condemnation about the opposing candidate</span>, <span style="color:green">“Picasso”</span> uses them to <span style="color:red">reinforce</span> <span style="color:purple">confidence and competence in the sponsoring candidate</span>.
+</p>
+<button type="button" onclick="inverted_madlib()">Generate conditional thesis!</button>
+<div style="border: 3px black inset; width: 75%; margin: 10px; padding: 10px;" id="output">
+Results
+</div>
+
+<p id="output2"></p>
+
+
+
+
+
+</body></html>
