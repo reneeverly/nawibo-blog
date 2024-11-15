@@ -1,0 +1,167 @@
+AFRAME.registerComponent('window', {
+	schema: {
+		style: {default: 'scpld_single'},
+		frame_width: { default: 0.05}
+	},
+	init() {
+		let width = this.el.components.geometry.data.width
+		let height = this.el.components.geometry.data.height
+		let depth = this.el.components.geometry.data.depth
+		let bottom = [-width / 2, -height / 2, depth / 2]
+
+		let color = this.el.components.material.data.color
+    
+		let frame_bottom = document.createElement('a-box')
+		frame_bottom.className = 'window-generated-box'
+		frame_bottom.setAttribute('cad-position', bottom.join(' '))
+		frame_bottom.setAttribute('width', width)
+		frame_bottom.setAttribute('depth', depth)
+		frame_bottom.setAttribute('height', this.data.frame_width)
+		this.el.appendChild(frame_bottom)
+
+		let frame_top = document.createElement('a-box')
+		frame_top.className = 'window-generated-box'
+		frame_top.setAttribute('cad-position', [bottom[0], bottom[1] + height - this.data.frame_width, bottom[2]].join(' '))
+		frame_top.setAttribute('width', width)
+		frame_top.setAttribute('depth', depth)
+		frame_top.setAttribute('height', this.data.frame_width)
+		this.el.appendChild(frame_top)
+
+		let frame_leftside = document.createElement('a-box')
+		frame_leftside.className = 'window-generated-box'
+		frame_leftside.setAttribute('cad-position', bottom.join(' '))
+		frame_leftside.setAttribute('width', this.data.frame_width)
+		frame_leftside.setAttribute('depth', depth)
+		frame_leftside.setAttribute('height', height)
+		this.el.appendChild(frame_leftside)
+
+		let frame_rightside = document.createElement('a-box')
+		frame_rightside.className = 'window-generated-box'
+		frame_rightside.setAttribute('cad-position', [bottom[0] + width - this.data.frame_width, bottom[1], bottom[2]].join(' '))
+		frame_rightside.setAttribute('width', this.data.frame_width)
+		frame_rightside.setAttribute('depth', depth)
+		frame_rightside.setAttribute('height', height)
+		this.el.appendChild(frame_rightside)
+
+		if (this.data.style == 'scpld_single') {
+
+			// horizontal crosses
+			let frame_botfifth = document.createElement('a-box')
+			frame_botfifth.className = 'window-generated-box'
+			frame_botfifth.setAttribute('cad-position', [bottom[0], bottom[1] + height * 2/9 - this.data.frame_width / 2, bottom[2]].join(' '))
+			frame_botfifth.setAttribute('width', width)
+			frame_botfifth.setAttribute('depth', depth)
+			frame_botfifth.setAttribute('height', this.data.frame_width)
+			this.el.appendChild(frame_botfifth)
+
+			let frame_botsevnin = document.createElement('a-box')
+			frame_botsevnin.className = 'window-generated-box'
+			frame_botsevnin.setAttribute('cad-position', [bottom[0], bottom[1] + height * 7/9 - this.data.frame_width / 2, bottom[2]].join(' '))
+			frame_botsevnin.setAttribute('width', width)
+			frame_botsevnin.setAttribute('depth', depth)
+			frame_botsevnin.setAttribute('height', this.data.frame_width)
+			this.el.appendChild(frame_botsevnin)
+
+			// vertical crosses
+			let frame_third = document.createElement('a-box')
+			frame_third.className = 'window-generated-box'
+			frame_third.setAttribute('cad-position', [bottom[0] + width / 3 - this.data.frame_width / 2, bottom[1] + height * 2/9, bottom[2]].join(' '))
+			frame_third.setAttribute('width', this.data.frame_width)
+			frame_third.setAttribute('depth', depth)
+			frame_third.setAttribute('height', height * 5/9)
+			this.el.appendChild(frame_third)
+	
+			let frame_third2 = document.createElement('a-box')
+			frame_third2.className = 'window-generated-box'
+			frame_third2.setAttribute('cad-position', [bottom[0] + width * 2 / 3 - this.data.frame_width / 2, bottom[1] + height * 2/9, bottom[2]].join(' '))
+			frame_third2.setAttribute('width', this.data.frame_width)
+			frame_third2.setAttribute('depth', depth)
+			frame_third2.setAttribute('height', height * 5/9)
+			this.el.appendChild(frame_third2)
+
+		} else if (this.data.style == 'scpld_triple') {
+
+			// horizontal crosses
+			let frame_botfifth = document.createElement('a-box')
+			frame_botfifth.className = 'window-generated-box'
+			frame_botfifth.setAttribute('cad-position', [bottom[0], bottom[1] + height * 2/9 - this.data.frame_width / 2, bottom[2]].join(' '))
+			frame_botfifth.setAttribute('width', width)
+			frame_botfifth.setAttribute('depth', depth)
+			frame_botfifth.setAttribute('height', this.data.frame_width)
+			this.el.appendChild(frame_botfifth)
+
+			let frame_botsevnin = document.createElement('a-box')
+			frame_botsevnin.className = 'window-generated-box'
+			frame_botsevnin.setAttribute('cad-position', [bottom[0], bottom[1] + height * 7/9 - this.data.frame_width / 2, bottom[2]].join(' '))
+			frame_botsevnin.setAttribute('width', width)
+			frame_botsevnin.setAttribute('depth', depth)
+			frame_botsevnin.setAttribute('height', this.data.frame_width)
+			this.el.appendChild(frame_botsevnin)
+
+			// main verticals
+			let frame_vert = document.createElement('a-box')
+			frame_vert.className = 'window-generated-box'
+			frame_vert.setAttribute('cad-position', [bottom[0] + width / 3 - this.data.frame_width / 2, bottom[1], bottom[2]].join(' '))
+			frame_vert.setAttribute('width', this.data.frame_width)
+			frame_vert.setAttribute('depth', depth)
+			frame_vert.setAttribute('height', height)
+			this.el.appendChild(frame_vert)
+
+			let frame_vert2 = document.createElement('a-box')
+			frame_vert2.className = 'window-generated-box'
+			frame_vert2.setAttribute('cad-position', [bottom[0] + width * 2 / 3 - this.data.frame_width / 2, bottom[1], bottom[2]].join(' '))
+			frame_vert2.setAttribute('width', this.data.frame_width)
+			frame_vert2.setAttribute('depth', depth)
+			frame_vert2.setAttribute('height', height)
+			this.el.appendChild(frame_vert2)
+
+			// sub verticals
+			let frame_third = document.createElement('a-box')
+			frame_third.className = 'window-generated-box'
+			frame_third.setAttribute('cad-position', [bottom[0] + width * 1 / 6 - this.data.frame_width / 2, bottom[1] + height * 2/9, bottom[2]].join(' '))
+			frame_third.setAttribute('width', this.data.frame_width)
+			frame_third.setAttribute('depth', depth)
+			frame_third.setAttribute('height', height * 5/9)
+			this.el.appendChild(frame_third)
+	
+			let frame_third2 = document.createElement('a-box')
+			frame_third2.className = 'window-generated-box'
+			frame_third2.setAttribute('cad-position', [bottom[0] + width * 3 / 6 - this.data.frame_width / 2, bottom[1] + height * 2/9, bottom[2]].join(' '))
+			frame_third2.setAttribute('width', this.data.frame_width)
+			frame_third2.setAttribute('depth', depth)
+			frame_third2.setAttribute('height', height * 5/9)
+			this.el.appendChild(frame_third2)
+
+			let frame_third3 = document.createElement('a-box')
+			frame_third3.className = 'window-generated-box'
+			frame_third3.setAttribute('cad-position', [bottom[0] + width * 5 / 6 - this.data.frame_width / 2, bottom[1] + height * 2/9, bottom[2]].join(' '))
+			frame_third3.setAttribute('width', this.data.frame_width)
+			frame_third3.setAttribute('depth', depth)
+			frame_third3.setAttribute('height', height * 5/9)
+			this.el.appendChild(frame_third3)
+
+		}
+
+		// pane
+		let pane = document.createElement('a-box')
+		pane.className = 'window-generated-box'
+		pane.setAttribute('position', [0, 0, 0].join(' '))
+		pane.setAttribute('width', width - this.data.frame_width)
+		pane.setAttribute('depth', 0.02)
+		pane.setAttribute('height', height - this.data.frame_width)
+		pane.setAttribute('color', 'skyblue')
+		pane.setAttribute('opacity', 0.4)
+		this.el.appendChild(pane)
+
+		this.el.getObject3D('mesh').visible = false
+	},
+	update() {
+		// delete anything that was previously initialized
+		let old_boxes = Array.from(this.el.children).filter(ele=>{return ele.className == 'window-generated-box'})
+		for (let i = 0; i < old_boxes.length; i++) {
+    			this.el.removeChild(old_boxes[i])
+		}
+		// then go again!
+		this.init()
+	}
+})
