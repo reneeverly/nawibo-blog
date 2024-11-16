@@ -37,7 +37,7 @@ AFRAME.registerComponent('window', {
 			// └─────┘
 			
 			// one across
-			this.el.appendChild(newBoxGivenParams([bottom[0], bottom[1] + height * 2 - this.data.frame_width / 2, bottom[2]].join(' '), width, depth, this.data.frame_width))
+			this.el.appendChild(newBoxGivenParams([bottom[0], bottom[1] + height / 2 - this.data.frame_width / 2, bottom[2]].join(' '), width, depth, this.data.frame_width))
 			
 		} else if (this.data.style == 'scpld_single') {
 			// ┌─────┐
