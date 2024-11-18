@@ -11,6 +11,24 @@ AFRAME.registerComponent("masonry", {
 		extra_mortar: {default: [0, 0, 0, 0]} // mortar distance units; left, right, back, front
 	},
 	init() {
+		// Set regional brick dimensions
+		if (this.data.type == 'brick_in') {
+			this.data.width = 0.19
+			this.data.height = 0.053
+			this.data.depth = 0.115
+			this.data.mortar = 0.01
+		} else if (this.data.type == 'brick_cn') {
+			this.data.width = 0.24
+			this.data.height = 0.053
+			this.data.depth = 0.115
+			this.data.mortar = 0.01
+		} else if (this.data.type == 'brick_au') {
+			this.data.width = 0.23
+			this.data.height = 0.076
+			this.data.depth = 0.11
+			this.data.mortar = 0.01
+		}
+
 		let width = this.el.components.geometry.data.width //this.el.getAttribute('width')
 		let height = this.el.components.geometry.data.height //.getAttribute('height')
 		let depth = this.el.components.geometry.data.depth //getAttribute('depth')
