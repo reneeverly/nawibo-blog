@@ -7,7 +7,7 @@ AFRAME.registerComponent("masonry", {
 		depth: {default: 0.092075},
 		mortar: {default: 0.009525},
 		mortar_color: {default: '#ececec'},
-		initial_offset: {default: 0}, // TODO: initial offset skips a brick at the start?
+		tile_fraction_left: {default: 1}, // percentage of a brick and mortar
 		extra_mortar: {default: [0, 0, 0, 0]} // mortar distance units; left, right, back, front
 	},
 	init() {
@@ -45,7 +45,7 @@ AFRAME.registerComponent("masonry", {
 		let bottom = [-width / 2, -height / 2, 0]
 		//if (typeof this.el.components['position-origin'] == 'undefined') { bottom = [-width / 2, -height / 2, 0] } else { bottom = [-width/2 - width * (this.el.components['position-origin'].data.x), -height * this.el.components['position-origin'].data.y, -depth * (this.el.components['position-origin'].data.z - 0.5)] }
 		console.log(this.el.components)
-		let offset = this.data.initial_offset
+		let offset = 0
 		for (let j = 0; j < height; j += this.data.height + this.data.mortar) {
   			let precalc_height = this.data.height
   			if ((j + precalc_height) > height) { precalc_height = height - j }
@@ -55,9 +55,16 @@ AFRAME.registerComponent("masonry", {
 				for (let i = 0; i < width; i += this.data.width + this.data.mortar) {
   					let precalc_width = this.data.width
   					if (i == 0 && offset != 0) {
-    					precalc_width = offset
+    						precalc_width = offset
+						i -= offset
   					}
   					if ((i + precalc_width) > width) { precalc_width = width - i }
+					
+					// handle tile_fraction_left.
+					precalc_width -= (this.data.tile_fraction_left * (this.data.width + this.data.mortar)) - this.data.mortar
+					i -= (this.data.width + this.data.mortar) - this.data.tile_fraction_left * (this.data.width + this.data.mortar) // when tile_fraction_left = 1, should zero out so no i adjustment.
+					if (precalc_width <= 0) continue // avoid issues where backwards bricks are drawn.
+					
   					let bricky = document.createElement('a-box')
   					bricky.className = 'masonry-generated-box'
   					bricky.setAttribute('width', precalc_width)
@@ -70,7 +77,6 @@ AFRAME.registerComponent("masonry", {
   					bricky.setAttribute('color', this.el.getAttribute('color'))
   					this.el.appendChild(bricky)
   					//console.log(bricky)
-  					if (precalc_width == offset) { i -= offset }
 				}
 			}
 			
