@@ -54,15 +54,16 @@ AFRAME.registerComponent("masonry", {
 			for (let k = -depth / 2; k < depth / 2; k += depth - this.data.mortar) {
 				for (let i = 0; i < width; i += this.data.width + this.data.mortar) {
   					let precalc_width = this.data.width
+					let i_adjustment = 0
   					if (i == 0 && offset != 0) {
     						precalc_width = offset
-						i -= offset
+						i_adjustment -= offset
   					}
   					if ((i + precalc_width) > width) { precalc_width = width - i }
 					
 					// handle tile_fraction_left.
 					precalc_width -= ((1-this.data.tile_fraction_left) * (this.data.width + this.data.mortar))
-					i -= (this.data.width + this.data.mortar) - this.data.tile_fraction_left * (this.data.width + this.data.mortar) // when tile_fraction_left = 1, should zero out so no i adjustment.
+					i_adjustment -= (this.data.width + this.data.mortar) - this.data.tile_fraction_left * (this.data.width + this.data.mortar) // when tile_fraction_left = 1, should zero out so no i adjustment.
 					if (precalc_width <= 0) continue // avoid issues where backwards bricks are drawn.
 					
   					let bricky = document.createElement('a-box')
@@ -77,6 +78,7 @@ AFRAME.registerComponent("masonry", {
   					bricky.setAttribute('color', this.el.getAttribute('color'))
   					this.el.appendChild(bricky)
   					//console.log(bricky)
+					i += i_adjustment
 				}
 			}
 			
