@@ -27,6 +27,16 @@ AFRAME.registerComponent("masonry", {
 			this.data.height = 0.076
 			this.data.depth = 0.11
 			this.data.mortar = 0.01
+		} else if (this.data.type == 'brick_metric_5') {
+			this.data.width = 0.19
+			this.data.height = 0.04
+			this.data.depth = 0.115
+			this.data.mortar = 0.01
+		} else if (this.data.type == 'brick_metric_4') {
+			this.data.width = 0.24
+			this.data.height = 0.09
+			this.data.depth = 0.115
+			this.data.mortar = 0.01
 		}
 
 		let width = this.el.components.geometry.data.width //this.el.getAttribute('width')
@@ -66,6 +76,10 @@ AFRAME.registerComponent("masonry", {
 			
 			// depth walls
 			for (let k = 0; k < width; k += width - this.data.mortar) {
+				// if using extra_mortar, skip this step
+				if (k == 0 && this.data.extra_mortar[0] >= 1) { continue }
+				else if (k != 0 && this.data.extra_mortar[1] >= 1) { continue }
+				
 				for (let i = 0; i < depth; i += this.data.width + this.data.mortar) {
   					let precalc_width = this.data.width
   					if (i == 0 && offset != 0) {
