@@ -65,7 +65,7 @@ AFRAME.registerComponent("masonry", {
 					if (i == 0) {
 						precalc_width -= ((1-this.data.tile_fraction_left) * (this.data.width + this.data.mortar))
 						i_adjustment -= (this.data.width + this.data.mortar) - this.data.tile_fraction_left * (this.data.width + this.data.mortar) // when tile_fraction_left = 1, should zero out so no i adjustment.
-						if (precalc_width <= 0) continue // avoid issues where backwards bricks are drawn.
+						if (precalc_width <= 0) {i += adjustment; continue} // avoid issues where backwards bricks are drawn.
 					}
 					
   					let bricky = document.createElement('a-box')
