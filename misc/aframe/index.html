@@ -19,17 +19,20 @@ body { margin: 0; }
     <script src="components/cad-position.js"></script>
     <script src="components/masonry.js"></script>
 	 <script src="components/window.js"></script>
-  </head>
-  <body>
-    <a-scene id="the_scene">
-	 <a-entity camera id="the_camera" look-controls wasd-controls position="0 1.6 0"></a-entity>
-      <a-box position="-1 0.5 -3"  position-origin="1 1 1" rotation="0 45 0" color="#4CC3D9" masonry opacity="0.5"></a-box>
-      <a-sphere position="0 1.25 -5" radius="1.25" color="#EF2D5E"></a-sphere>
-      <a-cylinder position="1 0.75 -3" radius="0.5" height="1.5" color="#FFC65D"></a-cylinder>
-      <a-plane position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#7BC8A4"></a-plane>
-      <a-sky color="#ECECEC"></a-sky>
-    </a-scene>
-  </body>
+</head>
+<body>
+	<a-scene id="the_scene">
+		<a-entity camera id="the_camera" look-controls wasd-controls="fly: true;" position="0 1.6 0"></a-entity>
+		<a-box position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9" masonry opacity="0.5"></a-box>
+		<a-sphere position="0 1.25 -5" radius="1.25" color="#EF2D5E"></a-sphere>
+		<a-cylinder position="1 0.75 -3" radius="0.5" height="1.5" color="#FFC65D"></a-cylinder>
+		<a-box masonry="type: brick_in; extra_mortar: 0, 2, 0, 0;" cad-position="-4 0 -2" rotation="0 90 0" depth="0.2" height="2"></a-box>
+		<a-box window cad-position="-4 0 -3" rotation="0 90 0" depth="0.2" height="2"></a-box>
+		<a-box masonry="type: brick_in; extra_mortar: 2, 0, 0, 0;" cad-position="-4 0 -4" rotation="0 90 0" depth="0.2" height="2" width="2"></a-box>
+		<a-plane position="0 0 -4" rotation="-90 0 0" width="8" height="4" color="#7BC8A4"></a-plane>
+		<a-sky color="#ECECEC"></a-sky>
+	</a-scene>
+</body>
 </html>
 </textarea>
 <button id="render_btn" onclick="render_target.srcdoc = raw_html.value">Render and Reset</button>
