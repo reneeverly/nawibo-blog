@@ -8,6 +8,12 @@ AFRAME.registerComponent('cad-position', {
 			this.data.y + this.el.components.geometry.data.height / 2,
 			this.data.z - this.el.components.geometry.data.depth / 2
 		].join(' '))
+		// Rotation should pivot around the corner (preferably the one we're using as the cad-position)
+		this.el.setAttribute('pivot', [
+			- this.el.components.geometry.data.width / 2,
+			0,
+			this.el.components.geometry.data.depth / 2
+		].join(' '))
 	}
 })
 
