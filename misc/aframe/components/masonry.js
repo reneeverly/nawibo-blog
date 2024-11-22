@@ -9,7 +9,7 @@ AFRAME.registerComponent("masonry", {
 		mortar_color: {default: '#ececec'},
 		tile_fraction_left: {default: 1}, // percentage of a brick and mortar
 		tile_fraction_bottom: {default: 1}, // percentage of a brick and mortar
-		extra_mortar: {default: [0, 0, 0, 0]} // mortar distance units; left, right, back, front
+		extra_mortar: {default: [0, 0, 0, 0, 0, 0]} // mortar distance units; left, right, back, front, bottom, top
 	},
 	init() {
 		// Set regional brick dimensions
@@ -126,14 +126,21 @@ AFRAME.registerComponent("masonry", {
 			if (offset == 0) { offset = this.data.width / 2 } else { offset = 0 }
 		}
 
+		// avoid omission of mortar when provided extra_mortar is incomplete
+		this.data.extra_mortar.fill(0, this.data.extra_mortar.length, 6)
+
 		// mortar
 		let mortarbox = document.createElement('a-box')
 		mortarbox.className = 'masonry-generated-box'
 		mortarbox.setAttribute('color', this.data.mortar_color)
 		mortarbox.setAttribute('width', width - 2 * this.data.mortar + this.data.extra_mortar[0] * this.data.mortar + this.data.extra_mortar[1] * this.data.mortar)
-		mortarbox.setAttribute('height', height - 2 * this.data.mortar)
+		mortarbox.setAttribute('height', height - 2 * this.data.mortar + this.data.extra_mortar[4] * this.data.mortar + this.data.extra_mortar[5] * this.data.mortar)
 		mortarbox.setAttribute('depth', depth - 2 * this.data.mortar + this.data.extra_mortar[2] * this.data.mortar + this.data.extra_mortar[3] * this.data.mortar)
-		mortarbox.setAttribute('position', [bottom[0] + this.data.mortar + mortarbox.getAttribute('width') / 2 - this.data.extra_mortar[0] * this.data.mortar, bottom[1] + this.data.mortar + mortarbox.getAttribute('height') / 2, bottom[2] - this.data.extra_mortar[3] * this.data.mortar / 2 + this.data.extra_mortar[2] * this.data.mortar / 2].join(' '))
+		mortarbox.setAttribute('position', [
+			bottom[0] + this.data.mortar + mortarbox.getAttribute('width') / 2 - this.data.extra_mortar[0] * this.data.mortar,
+			bottom[1] + this.data.mortar + mortarbox.getAttribute('height') / 2 - this.data.extra_mortar[4] * this.data.mortar,
+			bottom[2] - this.data.extra_mortar[3] * this.data.mortar / 2 + this.data.extra_mortar[2] * this.data.mortar / 2
+		].join(' '))
 		this.el.appendChild(mortarbox)
 		this.el.getObject3D('mesh').visible = false
 	},
