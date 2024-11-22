@@ -127,7 +127,7 @@ AFRAME.registerComponent("masonry", {
 		}
 
 		// avoid omission of mortar when provided extra_mortar is incomplete
-		this.data.extra_mortar.fill(0, this.data.extra_mortar.length, 6)
+		this.data.extra_mortar = this.data.extra_mortar.concat([0,0,0,0,0,0].slice(this.data.extra_mortar.length))
 
 		// mortar
 		let mortarbox = document.createElement('a-box')
