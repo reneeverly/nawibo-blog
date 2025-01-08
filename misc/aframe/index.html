@@ -14,11 +14,12 @@ body { margin: 0; }
 <div id="raw_html_holder">
 <textarea id="raw_html">
 <html>
-  <head>
-    <script src="aframe.min.js"></script>
-    <script src="components/cad-position.js"></script>
-    <script src="components/masonry.js"></script>
-	 <script src="components/window.js"></script>
+<head>
+	<script src="aframe.min.js"></script>
+	<script src="components/cad-position.js"></script>
+	<script src="components/masonry.js"></script>
+	<script src="components/window.js"></script>
+	<script src="components/simple-character-reference.js"></script>
 </head>
 <body>
 	<a-scene id="the_scene">
@@ -35,8 +36,9 @@ body { margin: 0; }
 </body>
 </html>
 </textarea>
-<button id="render_btn" onclick="render_target.srcdoc = raw_html.value">Render and Reset</button>
+<button id="render_btn" onclick="render_target.srcdoc = (skipindivmasonry.checked ? raw_html.value.replaceAll('masonry=', 'masnry=') : raw_html.value)">Render and Reset</button>
 <button id="rerender_btn" onclick="render_but_keep_camera_stuff()">Render but leave Camera Alone</button>
+<input type="checkbox" id="skipindivmasonry"></input><label for="skipindivmasonry">Skip Rendering Individual Bricks in Masonry (speed up render on slower computers)</label>
 </div>
 <iframe id="render_target"></iframe>
 <script>
@@ -50,7 +52,7 @@ function render_but_keep_camera_stuff() {
 
 	//console.log(old_position, old_rotation)
 
-	render_target.srcdoc = raw_html.value
+	render_target.srcdoc = (skipindivmasonry.checked ? raw_html.value.replaceAll('masonry=', 'masnry=') : raw_html.value)
 
 	render_target.addEventListener('load', function(e) {
 
