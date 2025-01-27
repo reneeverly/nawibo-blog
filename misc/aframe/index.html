@@ -3,15 +3,32 @@
 <head>
 <title>A-Frame 3D Modeling Toolkit</title>
 <style>
-#render_target { box-sizing: border-box; width: 100%; height: 67%; }
-#raw_html_holder { position: absolutee; top: 0; left: 0; width: 50%; height: 33%; }
-textarea { display: block; width: 100%; }
-#raw_html { height: 80%; }
+#_render_target { box-sizing: border-box; width: 100%; height: 67%; }
+#_raw_html_holder { position: absolutee; top: 0; left: 0; width: 50%; height: 33%; }
+#_raw_html { height: 80%; }
 body { margin: 0; }
+
+* { box-sizing: border-box; }
+html { height: 100%; }
+body { display: table; width: 100%; height: 100%; }
+#everything { display: table-row; }
+#raw_html_holder { display: table-cell; vertical-align: top; }
+#flexy_column { display: flex; flex-direction: column; height: 100%; }
+#raw_html { height: 100%; }
+#render_holder { display: table-cell; }
+#render_target { width: 100%; height: 100%; }
 </style>
 </head>
 <body>
-<div id="raw_html_holder">
+<div id="everything">
+<div id="raw_html_holder" style="width: 35%;">
+<div id="flexy_column">
+<div>
+<button id="render_btn" onclick="render_target.srcdoc = (skipindivmasonry.checked ? raw_html.value.replaceAll('masonry=', 'masnry=') : raw_html.value)">Render and Reset</button>
+<button id="rerender_btn" onclick="render_but_keep_camera_stuff()">Render but leave Camera Alone</button>
+<input type="checkbox" id="skipindivmasonry"></input><label for="skipindivmasonry">Skip Rendering Individual Bricks in Masonry (speed up render on slower computers)</label><br>
+<button id="svg_btn" onclick="go_svg()">Export SVG</button>
+</div>
 <textarea id="raw_html">
 <html>
 <head>
@@ -20,6 +37,7 @@ body { margin: 0; }
 	<script src="components/masonry.js"></script>
 	<script src="components/window.js"></script>
 	<script src="components/simple-character-reference.js"></script>
+	<script src="components/triangle-extrude.js"></script>
 	<script src="addons/projector.js"></script>
 	<script src="addons/svgrenderer_gouraud.js"></script>
 </head>
@@ -32,18 +50,22 @@ body { margin: 0; }
 		<a-box masonry="type: brick_in; extra_mortar: 0, 2, 0, 0;" cad-position="-4 0 -2" rotation="0 90 0" depth="0.2" height="2"></a-box>
 		<a-box window cad-position="-4 0 -3" rotation="0 90 0" depth="0.2" height="2"></a-box>
 		<a-box masonry="type: brick_in; extra_mortar: 2, 0, 0, 0;" cad-position="-4 0 -4" rotation="0 90 0" depth="0.2" height="2" width="2"></a-box>
+		<a-triangle vertex-a="-4 2 -4" vertex-b="-2 2.5 -5" vertex-c="-3 3 -5" extrude="2" color="#99ff99"></a-triangle>
 		<a-plane position="0 0 -4" rotation="-90 0 0" width="8" height="4" color="#7BC8A4"></a-plane>
 		<a-sky color="#ECECEC"></a-sky>
 	</a-scene>
 </body>
 </html>
 </textarea>
-<button id="render_btn" onclick="render_target.srcdoc = (skipindivmasonry.checked ? raw_html.value.replaceAll('masonry=', 'masnry=') : raw_html.value)">Render and Reset</button>
-<button id="rerender_btn" onclick="render_but_keep_camera_stuff()">Render but leave Camera Alone</button>
-<input type="checkbox" id="skipindivmasonry"></input><label for="skipindivmasonry">Skip Rendering Individual Bricks in Masonry (speed up render on slower computers)</label><br>
-<button id="svg_btn" onclick="go_svg()">Export SVG</button>
+<div>
+<label for"width_text">Adjust text editor width:</label><input id="width_text" value="35%"></input><button onclick="raw_html_holder.style = 'width: ' + width_text.value">Resize</button>
 </div>
+</div>
+</div>
+<div id="render_holder">
 <iframe id="render_target"></iframe>
+</div>
+</div>
 <script>
 function render_but_keep_camera_stuff() {
 	old_position = Object.values(render_target.contentWindow.the_camera.getAttribute('position')).join(' ')
@@ -59,15 +81,15 @@ function render_but_keep_camera_stuff() {
 
 	render_target.addEventListener('load', function(e) {
 
-	render_target.contentWindow.the_camera.setAttribute('position', old_position)
-	render_target.contentWindow.document.querySelector('a-scene').addEventListener('loaded', function() {
+		render_target.contentWindow.the_camera.setAttribute('position', old_position)
+		render_target.contentWindow.document.querySelector('a-scene').addEventListener('loaded', function() {
 
-	// https://stackoverflow.com/questions/52815449/incorrent-orientation-with-initial-camera-rotation-in-aframe-0-8
-	render_target.contentWindow.the_camera.components["look-controls"].pitchObject.rotation.x = old_pitch_x
-	render_target.contentWindow.the_camera.components["look-controls"].yawObject.rotation.y = old_yaw_y
+			// https://stackoverflow.com/questions/52815449/incorrent-orientation-with-initial-camera-rotation-in-aframe-0-8
+			render_target.contentWindow.the_camera.components["look-controls"].pitchObject.rotation.x = old_pitch_x
+			render_target.contentWindow.the_camera.components["look-controls"].yawObject.rotation.y = old_yaw_y
 
-	//console.log(old_position, old_rotation)
-	})
+			//console.log(old_position, old_rotation)
+		})
 	})
 }
 function go_svg() {

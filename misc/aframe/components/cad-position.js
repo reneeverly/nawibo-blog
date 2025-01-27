@@ -1,6 +1,7 @@
 // using object3D position was causing issues with my masonry component, so let's start over on position modifications.
 // use INSTEAD of position
 AFRAME.registerComponent('cad-position', {
+	//dependencies: ['masonry', 'window'],
 	schema: {type: 'vec3', default: new THREE.Vector3(0, 0, 0)},
 	init: function(){
 		this.el.setAttribute('position', [
