@@ -30,21 +30,22 @@ html, body { margin: 0px; padding: 0px; font-family: 'Arial'; position: relative
 <label for="year">Year: </label><input type="text" id="year" name="year"></input><br>
 <label for="start">Start Month: </label><select id="start"></select><br>
 <label for="end">End Month: </label><select id="end"></select><br>
-<button onclick="runQuery(year.value, start.value, end.value)">Display Months</button>
+<label for="density">Each page should have: </label><select id="density"><option selected value="1">One Month</option><option value="2">Two Months</option><option value="3">Three Months</option></select><br>
+<button onclick="runQuery(year.value, start.value, end.value,density.value)">Display Months</button>
 <p>Once months are displayed, simply print the page(s).  Set margins to None or Minimum.  On Windows, 600dpi might be required for grey values.  The settings and help text will not be displayed when printed.</p>
 </div>
 <script>
 /* Universal */
 
-function appendMonth(style, month, year, firstDayOfWeek, displayHolidays) {
+function appendPage(style, month1, year, firstDayOfWeek, displayHolidays, monthsPerPage) {
    page = document.createElement('div')
    page.className = 'page start' + firstDayOfWeek
    page.innerHTML = '<span class="monthtitle"></span><table class="monthtable"><thead id=""><tr>' + ['<th>Sunday</th>','<th>Monday</th>','<th>Tuesday</th>','<th>Wednesday</th>','<th>Thursday</th>','<th>Friday</th>','<th>Saturday</th>'].map((x,i,a) => a[(((firstDayOfWeek+i)%a.length) + a.length) % a.length]).join('') + '</tr></thead><tbody class="monthbody"></tbody></table>'
 
    if (style == "hebcal") {
-      c = hPopulateMonth(month, year, page, firstDayOfWeek)
+      c = hPopulateMonth(month1, year, page, firstDayOfWeek)
    } else {
-      c = gPopulateMonth(month, year, page, firstDayOfWeek, displayHolidays)
+      c = gAddMonths(month1, year, page, firstDayOfWeek, displayHolidays, monthsPerPage)
    }
 
    document.body.appendChild(page)
@@ -64,12 +65,18 @@ function getDay(thing, firstDayOfWeek) {
 shortmonth = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 longmonth = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
 
-function gPopulateMonth(month, year, page, firstDayOfWeek, displayHolidays) {
+function gAddMonths(month, year, page, firstDayOfWeek, displayHolidays, count) {
    page.getElementsByClassName('monthtitle')[0].innerText = longmonth[month] + ' ' + year
    alldays = '<tr>'
 
    // get all of the days
    a = gGetDaysInMonth(month, year)
+for (var k = 1; k < count; k++) {
+	a = a.concat(gGetDaysInMonth((month+k)%12,year+Math.floor((month+k)/12)))
+	if (k == (count - 1)) {
+		page.getElementsByClassName('monthtitle')[0].innerText = longmonth[month] + ' - ' + longmonth[(month+k)%12] + ' ' + year + ((Math.floor((month+k)/12) > 0) ? '/'+(year+Math.floor((month+k)/12)) : '')
+	}
+}
 
    // prepend any necessary blanks
    for (var i = getDay(a[0], firstDayOfWeek); i > 0; i--) {
@@ -80,7 +87,7 @@ function gPopulateMonth(month, year, page, firstDayOfWeek, displayHolidays) {
 
    // iterate over all days, mod 7
    for (var i = 0; i < a.length; i++) {
-      alldays += '<td>' + a[i].getDate() + ((i == 0) ? ' ' + shortmonth[a[i].getMonth()] : '') + '<span>' + (displayHolidays ? noUndefined(greg_holidays[a[i].getMonth()][a[i].getDate()]) : '') + '</span></td>'
+      alldays += '<td>' + a[i].getDate() + ((a[i].getDate() == 1) ? ' ' + shortmonth[a[i].getMonth()] : '') + '<span>' + (displayHolidays ? noUndefined(greg_holidays[a[i].getMonth()][a[i].getDate()]) : '') + '</span></td>'
       if ((getDay(a[i], firstDayOfWeek) == 6) && (i != (a.length - 1))) {
          alldays += '</tr><tr>'
       }
@@ -145,7 +152,7 @@ end.innerHTML = monthOptions
 year.value = (new Date()).getFullYear()
 end.value = 'Dec'
 
-function runQuery(year, startMonth, endMonth) {
+function runQuery(year, startMonth, endMonth, monthsPerPage) {
    // clear out any old months
    var old_months = document.getElementsByClassName('page')
    while (old_months.length > 0) {
@@ -153,8 +160,8 @@ function runQuery(year, startMonth, endMonth) {
    }
 
    // Display new months
-   for (var i = shortmonth.indexOf(startMonth); i <= shortmonth.indexOf(endMonth); i++) {
-      appendMonth("greg", i, year, /*startDayOfWeek=*/0,/*displayHolidays=*/true);
+   for (var i = shortmonth.indexOf(startMonth); i <= shortmonth.indexOf(endMonth); i += monthsPerPage*1) {
+      appendPage("greg", i, year*1, /*startDayOfWeek=*/0,/*displayHolidays=*/true,monthsPerPage*1);
    }
 }
 </script>
