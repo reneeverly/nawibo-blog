@@ -1,0 +1,95 @@
+body {
+	background: #000400;
+	color: #090;
+	font-family: 'consolas';
+	margin: 0;
+	text-align: center;
+}
+
+nav, footer {
+	font-size: 16px;
+	line-height: 18px;
+	background: #090;
+	color: black;
+	text-align: left;
+}
+
+::-webkit-scrollbar {  
+    width:16px;
+    height:16px;
+    background-color:transparent;
+}
+
+::-webkit-scrollbar-track {
+    background-color:black;
+}
+
+::-webkit-scrollbar-track-piece {
+    background-color:#000400;
+}
+
+::-webkit-scrollbar-thumb {  
+    background-color: #000400;
+	border: 1px solid #060;
+}
+::-webkit-scrollbar-button:end {
+    background-color: #000400;
+	display: block;
+	border: 1px solid #060;
+}
+::-webkit-scrollbar-button:end:hover {
+	background-color: #060;
+}
+
+
+#inputTextToSave{font: 17px/120% 'Consolas', Courier, serif;color: #0d0;background: #000400;padding: 5px;border: 0;width: 770px;height: calc(100% - 19*2px);overflow-x: hidden;overflow-y: auto;border-spacing: 0; resize: none !important;}
+::-moz-selection {
+background-color: #090;
+color: #0F0;
+}
+
+/* Works in Safari */
+::selection {
+background-color: #090;
+color: #0F0;
+}
+
+/* Works in Opera */
+::-o-selection {
+background-color: #090;
+color: #060;
+}
+::-ms-selection {
+background-color: #090;
+color: #0F0;
+}
+
+/* Works in Internet Explorer */
+::-webkit-selection {
+background-color: #090;
+color: #0F0;
+}
+button {
+	background: #090;
+	color: #000;
+	border: none;
+	margin: 0;
+	padding: 0;
+	font-size: 16px;
+	float: right;
+	line-height: 18px;
+}
+button:hover {
+	background: #0c0;
+	color: black;
+}
+textarea:focus, input:focus{
+    outline: 0;
+}
+input {
+	line-height: 18px;
+	font-size: 16px;
+	background: #090;
+	color: #000;
+	border: 0;
+}
