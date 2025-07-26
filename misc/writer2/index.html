@@ -1,19 +1,20 @@
+<!DOCTYPE html>
 <html>
 	<head>
-		<script type="text/javascript" charset="utf-8">window.onload = function() {document.getElementById('inputTextToSave').focus();}</script>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Minimal Text Editor 2</title>
 		<link rel="stylesheet" href="styles.css">
 	</head>
 	<body>
-		<nav><span>Minimal Text Editor 2 (2016b)</span><button onClick="saveTextAsFile()">Save Text to File</button></nav>
-		<textarea id="inputTextToSave" style="overflow-x: hidden; overflow-y: scroll; resize: both" onkeyup="wordcount(this.value)"></textarea>
+		<nav><span>Minimal Text Editor 2 (2025a)</span><button onClick="saveTextAsFile()">Save Text to File</button></nav>
+		<div class="inputHolder"><textarea id="inputTextToSave" style="overflow-x: hidden; overflow-y: scroll; resize: both" onkeyup="wordcount(this.value)"></textarea></div>
 		<footer>
 			<span>Approx. Word Count:</span>
 			<script type="text/javascript">
 var cnt;
 function wordcount(count) {
 var words = count.split(/\s/);
-var sentences = count.split('.');
+var sentences = count.split(/[.!?]/g);
 cnt = words.length - sentences.length + 1;
 var ele = document.getElementById('w_count');
 ele.value = cnt;
@@ -21,6 +22,7 @@ ele.value = cnt;
 document.write("<input type=text id=w_count size=4 readonly>");
 			</script>
 		</footer>
+		<script type="text/javascript" charset="utf-8">window.onload = function() {document.getElementById('inputTextToSave').focus();}</script>
 		<script type="text/javascript" src="saver.js"></script>
 	</body>
 </html>

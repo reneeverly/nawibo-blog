@@ -4,7 +4,12 @@ body {
 	font-family: 'consolas';
 	margin: 0;
 	text-align: center;
+	display: flex;
+	flex-direction: column;
+	height: 100vh;
 }
+
+* { box-sizing: border-box; }
 
 nav, footer {
 	font-size: 16px;
@@ -42,7 +47,8 @@ nav, footer {
 }
 
 
-#inputTextToSave{font: 17px/120% 'Consolas', Courier, serif;color: #0d0;background: #000400;padding: 5px;border: 0;width: 770px;height: calc(100% - 19*2px);overflow-x: hidden;overflow-y: auto;border-spacing: 0; resize: none !important;}
+.inputHolder{ flex: 1; position: relative; }
+#inputTextToSave{font: 17px/120% 'Consolas', Courier, serif;color: #0d0;background: #000400;padding: 5px;border: 0; width: 100%; max-width: 770px; overflow-x: hidden;overflow-y: auto;border-spacing: 0; resize: none !important; height: 100%; }
 ::-moz-selection {
 background-color: #090;
 color: #0F0;
