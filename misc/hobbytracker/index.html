@@ -12,10 +12,20 @@ body { font-family: sans-serif; }
 <div id="category_container">
 </div>
 <h2>Options</h2>
+<h3>New Category</h3>
 <div id="new_category">
-<input type="text" id="new_category_label"></input>
+<label for="new_category_label">New Category Name:</label>
+<input type="text" id="new_category_label"></input><br>
 <button id="new_category_add" onclick="addNewCategory(new_category_label.value)">Add Category</button>
 </div>
+<h3>Add/Subtract Duration</h3>
+<label for="timefix_category">Category:</label>
+<select id="timefix_category"><option>---</option></select><br>
+<label for="timefix_time">Add or Subtract (in minutes):</label>
+<input type="text" id="timefix_time"></input><br>
+<button id="timefix_go" onclick="adjustCategoryDuration(timefix_category.value, timefix_time.value)">Adjust Time</button>
+</div>
+
 <script src="querycalc.js"></script>
 </body>
 </html>

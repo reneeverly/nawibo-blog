@@ -43,6 +43,7 @@ function addUpDurations(container, startingIndex, endingIndex) {
 var category_html = ''
 for (var i = 0; i < params.length; i++) {
 	category_html += '<div><h3>' + params[i] + '</h3>' 
+	timefix_category.innerHTML += '<option>' + params[i] + '</option>'
 	var values = urlSearchParams.get(params[i]).split('|')
 	var duration = values[values.length - 1] * 1
 	var j = 0
@@ -77,5 +78,14 @@ function addPunchToCategory(categoryLabel) {
 	var new_values = new Date().toUTCString() + ((old_values.length > 0) ? '|' : '') + old_values.join('|')  + '|' + Math.floor(duration)
 
 	urlSearchParams.set(categoryLabel,  new_values)
+	window.location.search = urlSearchParams.toString()
+}
+
+function adjustCategoryDuration(categoryLabel, adjustmentValue) {
+	var old_values = urlSearchParams.get(categoryLabel).split('|')
+	var duration = old_values[old_values.length - 1] * 1
+	old_values[old_values.length - 1] = Math.floor(duration + adjustmentValue * 1)
+	
+	urlSearchParams.set(categoryLabel, old_values.join('|'))
 	window.location.search = urlSearchParams.toString()
 }
