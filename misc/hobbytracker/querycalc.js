@@ -42,7 +42,7 @@ function addUpDurations(container, startingIndex, endingIndex) {
 
 var category_html = ''
 for (var i = 0; i < params.length; i++) {
-	category_html += '<div><h3>' + params[i] + '</h3>' 
+	category_html += '<div><div class="catbox"><h3>' + params[i] + '</h3><div class="timebox">' 
 	timefix_category.innerHTML += '<option>' + params[i] + '</option>'
 	var values = urlSearchParams.get(params[i]).split('|')
 	var duration = values[values.length - 1] * 1
@@ -54,7 +54,7 @@ for (var i = 0; i < params.length; i++) {
 		button_text = "Punch Out"
 	}
 	duration += addUpDurations(values, j, values.length - (2 - j))
-	category_html += '<p>' + minutesToHoursAndMinutesString(duration) + '</p><button onclick="addPunchToCategory(`' + params[i] + '`)">' + button_text + '</button></div>'
+	category_html += '<p>' + minutesToHoursAndMinutesString(duration) + '</p></div></div><button onclick="addPunchToCategory(`' + params[i] + '`)">' + button_text + '</button></div>'
 
 }
 category_container.innerHTML = category_html
