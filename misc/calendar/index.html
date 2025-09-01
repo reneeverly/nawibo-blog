@@ -13,6 +13,10 @@ html, body { margin: 0px; padding: 0px; font-family: 'Arial'; position: relative
 .monthtable td.blank { background: #ccc; }
 .monthtable td .alternate { color: #ccc; display: block; padding-top: 0.5pt; font-size: 6pt; float: right; padding-right: 1pt; }
 .monthtable td span { position: absolute; left: 0; bottom: 0; width: 100%; }
+.monthtable td.slashday { background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg"><line x1="0%" y1="100%" x2="100%" y2="0%" style="stroke-width: 0.2mm" stroke="black"/></svg>'); }
+.monthtable td.slashday span { bottom: 5%; transform-origin: top left; transform: rotate(-45deg); }
+.monthtable td.slashday span.slashlast { right: 1px; bottom: 0px; width: initial; text-align: right; transform: none; }
+.monthtable td.slashday span.slashlastholiday { right: 1px; top: 100%; width: initial;}
 
 /* for monday start months only */
 .start1 .monthtable tr :nth-child(6) { border-left: 0.4mm solid black; }
@@ -31,11 +35,17 @@ html, body { margin: 0px; padding: 0px; font-family: 'Arial'; position: relative
 <label for="start">Start Month: </label><select id="start"></select><br>
 <label for="end">End Month: </label><select id="end"></select><br>
 <label for="density">Each page should have: </label><select id="density"><option selected value="1">One Month</option><option value="2">Two Months</option><option value="3">Three Months</option></select><br>
+<div class="settings">
+<p style="margin-top: 0px; font-weight: bold;">Special Settings:</p>
+<input type="checkbox" id="slashlast"/> <label for="slashlast">If last week has only one day, consolidate with prior Sunday.</label><br>
+</div>
 <button onclick="runQuery(year.value, start.value, end.value,density.value)">Display Months</button>
 <p>Once months are displayed, simply print the page(s).  Set margins to None or Minimum.  On Windows, 600dpi might be required for grey values.  The settings and help text will not be displayed when printed.</p>
 </div>
 <script>
 /* Universal */
+
+var split_day_svg = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg"><line x1="0%" y1="100%" x2="100%" y2="0%" style="stroke-width: 0.2mm" stroke="black"/></svg>'
 
 function appendPage(style, month1, year, firstDayOfWeek, displayHolidays, monthsPerPage) {
    page = document.createElement('div')
@@ -87,14 +97,19 @@ for (var k = 1; k < count; k++) {
 
    // iterate over all days, mod 7
    for (var i = 0; i < a.length; i++) {
-      alldays += '<td>' + a[i].getDate() + ((a[i].getDate() == 1) ? ' ' + shortmonth[a[i].getMonth()] : '') + '<span>' + (displayHolidays ? noUndefined(greg_holidays[a[i].getMonth()][a[i].getDate()]) : '') + '</span></td>'
+		// special case!  Using var because we're relying on the hoisting
+		// to skip the next for loop if true
+		var do_slashlast = ((getDay(a[i], firstDayOfWeek) == 0) && (i == a.length - 8) && slashlast.checked)
+
+      alldays += '<td' + (do_slashlast ? ' class="slashday"' : '') + '>' + a[i].getDate() + ((a[i].getDate() == 1) ? ' ' + shortmonth[a[i].getMonth()] : '') + '<span>' + (displayHolidays ? noUndefined(greg_holidays[a[i].getMonth()][a[i].getDate()]) : '') + '</span>' + (do_slashlast ? '<span class="slashlast">' + a[i+7].getDate() + '</span><span class="slashlastholiday">' + (displayHolidays ? noUndefined(greg_holidays[a[i+7].getMonth()][a[i+7].getDate()]) : '') + '</span>' : '') + '</td>'
       if ((getDay(a[i], firstDayOfWeek) == 6) && (i != (a.length - 1))) {
          alldays += '</tr><tr>'
       }
+		if ((getDay(a[i], firstDayOfWeek) == 6) && (i == a.length - 2) && slashlast.checked) { do_slashlast = true; break; }
    }
 
    // postpend any necessary blanks
-   for (var i = 0; i < (6 - getDay(a[a.length - 1], firstDayOfWeek)); i++) {
+   for (var i = 0; (i < (6 - getDay(a[a.length - 1], firstDayOfWeek))) && !do_slashlast; i++) {
       var d = new Date(a[a.length - 1].getYear(), a[a.length - 1].getMonth(), a[a.length - 1].getDate())
       d.setDate(d.getDate() + (i + 1))
       alldays += '<td class="blank">' + d.getDate() + ((i == 0) ? ' ' + shortmonth[d.getMonth()] : '') + '<span>' + (displayHolidays ? noUndefined(greg_holidays[d.getMonth()][d.getDate()]) : '') + '</span></td>'
