@@ -102,10 +102,10 @@ for (var k = 1; k < count; k++) {
 		var do_slashlast = ((getDay(a[i], firstDayOfWeek) == 0) && (i == a.length - 8) && slashlast.checked)
 
       alldays += '<td' + (do_slashlast ? ' class="slashday"' : '') + '>' + a[i].getDate() + ((a[i].getDate() == 1) ? ' ' + shortmonth[a[i].getMonth()] : '') + '<span>' + (displayHolidays ? noUndefined(greg_holidays[a[i].getMonth()][a[i].getDate()]) : '') + '</span>' + (do_slashlast ? '<span class="slashlast">' + a[i+7].getDate() + '</span><span class="slashlastholiday">' + (displayHolidays ? noUndefined(greg_holidays[a[i+7].getMonth()][a[i+7].getDate()]) : '') + '</span>' : '') + '</td>'
+		if ((getDay(a[i], firstDayOfWeek) == 6) && (i == a.length - 2) && slashlast.checked) { alldays += '</tr>'; do_slashlast = true; break; }
       if ((getDay(a[i], firstDayOfWeek) == 6) && (i != (a.length - 1))) {
          alldays += '</tr><tr>'
       }
-		if ((getDay(a[i], firstDayOfWeek) == 6) && (i == a.length - 2) && slashlast.checked) { do_slashlast = true; break; }
    }
 
    // postpend any necessary blanks
