@@ -50,7 +50,7 @@ for (var i = 0; i < params.length; i++) {
 	var button_text = "Punch In"
 	if ((values.length % 2) == 0) {
 		j++
-		category_html += '<p>' + minutesToHoursAndMinutesString(Math.floor(now - new Date(values[0]).getMinutesSince1970())) + ' pending.</p>'
+		category_html += '<p><span>' + minutesToHoursAndMinutesString(Math.floor(now - new Date(values[0]).getMinutesSince1970())) + '</span> pending. <button style="margin-bottom: 0;" onclick="this.parentElement.children[0].innerText = minutesToHoursAndMinutesString(Math.floor(new Date().getMinutesSince1970() - ' + new Date(values[0]).getMinutesSince1970() + '))">&orarr;</button></p>'
 		button_text = "Punch Out"
 	}
 	duration += addUpDurations(values, j, values.length - (2 - j))
