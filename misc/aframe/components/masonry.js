@@ -86,7 +86,7 @@ AFRAME.registerComponent("masonry", {
   					bricky.setAttribute('position', [bottom[0] + i + precalc_width / 2, bottom[1] + j + precalc_height / 2, bottom[2] + k + this.data.mortar / 2].join(' '))
 
   					// color the bricks, but not the mortar
-  					bricky.setAttribute('color', this.el.getAttribute('color'))
+  					if (this.el.getAttribute('color')) bricky.setAttribute('color', this.el.getAttribute('color'))
   					this.el.appendChild(bricky)
   					//console.log(bricky)
 					i += i_adjustment
@@ -114,7 +114,7 @@ AFRAME.registerComponent("masonry", {
   					bricky.setAttribute('position', [bottom[0] + k + this.data.mortar / 2, bottom[1] + j + precalc_height / 2, -depth/2 + i + precalc_width / 2].join(' '))
 
   					// color the bricks, but not the mortar
-  					bricky.setAttribute('color', this.el.getAttribute('color'))
+  					if (this.el.getAttribute('color')) bricky.setAttribute('color', this.el.getAttribute('color'))
   					this.el.appendChild(bricky)
   					//console.log(bricky)
   					if (precalc_width == offset) { i -= offset }
