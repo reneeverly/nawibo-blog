@@ -18,6 +18,24 @@ AFRAME.registerComponent('cad-position', {
 	}
 })
 
+
+AFRAME.registerComponent('bottom-position', {
+	schema: {type: 'vec3', default: new THREE.Vector3(0, 0, 0)},
+	init: function(){
+		this.el.setAttribute('position', [
+			this.data.x,
+			this.data.y + this.el.components.geometry.data.height / 2,
+			this.data.z
+		].join(' '))
+		// Rotation should pivot around the bottom center
+		this.el.setAttribute('pivot', [
+			0,
+			- this.el.components.geometry.data.height / 2,
+			0
+		].join(' '))
+	}
+})
+
 // https://stackoverflow.com/questions/38850411/how-to-create-a-wire-frame-3d-cube-in-a-frame
 AFRAME.registerComponent("ngon-wireframe", {
 
